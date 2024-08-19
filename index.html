@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+        <title>Counter</title>
+        <style>
+            body {
+                margin: 0;
+                display: flex;
+                justify-content: center;
+                height: 100vh;
+            }
+            .main-container {
+                justify-content: center;
+                align-items: center;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .buttons-container {
+                justify-content: center;
+                align-items: center;
+                display: flex;
+                gap: 10px;
+            }
+
+            .count {
+                margin: 0;
+                font-size: 100px;
+                font-weight: 600;
+            }
+        </style>
+    </head>
+    <script src="/socket.io/socket.io.js"></script>
+
+    <body>
+        <div class="main-container">
+            <p id="count" class="count">0</p>
+            <div class="buttons-container">
+                <button id="add-btn">ADD</button>
+                <button id="subtract-btn">SUBTRACT</button>
+            </div>
+        </div>
+    </body>
+    <script>
+        const socket = io();
+
+        const count = document.getElementById("count");
+
+        const addBtn = document.getElementById("add-btn");
+        const subBtn = document.getElementById("subtract-btn");
+
+        addBtn.addEventListener("click", (e) => {
+            socket.emit("add", "add");
+        });
+
+        subBtn.addEventListener("click", (e) => {
+            socket.emit("subtract", "subtract");
+        });
+
+        socket.on("add", (c) => {
+            count.innerHTML = c;
+        });
+
+        socket.on("subtract", (c) => {
+            count.innerHTML = c;
+        });
+
+        socket.on("initiate", (c) => {
+            count.innerHTML = c;
+        });
+    </script>
+</html>
