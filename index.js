@@ -20,15 +20,10 @@ app.get("/", (req, res) => {
 });
 
 io.on("connection", (socket) => {
-  io.emit("initiate", count);
-  socket.on("add", () => {
-    count += 1;
-    io.emit("add", count);
-  });
-
-  socket.on("subtract", () => {
-    count -= 1;
-    io.emit("subtract", count);
+  io.emit("update", count);
+  socket.on("change_count", (e) => {
+    count += e == "add" ? 1 : -1;
+    io.emit("update", count);
   });
 });
 
